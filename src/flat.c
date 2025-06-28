@@ -1,0 +1,15 @@
+#include "../include/flat.h"
+
+int flat(network networks[], int devices[], int ip, int cidr, int n_networks) {
+    int sum = 0;
+
+    for (int i = 0; i < n_networks; i++)
+        if (devices[i] < ip - get_subnet_mask(cidr))
+            sum += devices[i];
+        else 
+            return 0;
+
+    int broadcast = get_broadcast(ip, cidr);
+    networks[0] = build_network(ip, ip + sum, broadcast, cidr);
+    return 1;
+}

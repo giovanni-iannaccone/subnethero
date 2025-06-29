@@ -10,6 +10,6 @@ int flat(network networks[], int devices[], int ip, int cidr, int n_networks) {
             return 0;
 
     int broadcast = get_broadcast(ip, cidr);
-    networks[0] = build_network(ip, ip + sum, broadcast, cidr);
+    networks[0] = build_network(ip + 1, ip + sum, broadcast, cidr);
     return 1;
 }

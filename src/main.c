@@ -42,9 +42,9 @@ void help(const char program_name[]) {
 
     printf("-i | --ip\t\tspecify the IP of the base network\n");
     printf("-c | --cidr\t\tthe CIDR of the original network\n");
-    printf("-d | --devs\t\tnumber of subnetworks (followed by n devices for each network)\n\n");
+    printf("-s | --subs\t\tnumber of subnetworks (followed by n devices for each network)\n\n");
 
-    printf("Example: %s -v -c 24 -i 192.168.1.0 -d 3 64 5 15\n\n", program_name);
+    printf("Example: %s -v -c 24 -i 192.168.1.0 -s 3 64 5 15\n\n", program_name);
 }
 
 arguments parse_arguments(int argc, char *argv[]) {
@@ -64,9 +64,9 @@ arguments parse_arguments(int argc, char *argv[]) {
             args.cidr = atoi(argv[i + 1]);
         
         else if (compare_flag(argv[i], "-i", "--ip"))
-            args.ip = convert_to_int(argv[i + 1]);
+            args.ip = ip2int(argv[i + 1]);
         
-        else if (compare_flag(argv[i], "-d", "--devs")) {
+        else if (compare_flag(argv[i], "-s", "--subs")) {
             args.n_networks = atoi(argv[i + 1]);
             args.devices = get_devices(argv + i + 2, argc - i - 1);
         }
@@ -75,7 +75,16 @@ arguments parse_arguments(int argc, char *argv[]) {
 }
 
 void print_net(network net) {
-    printf("%s /%d %s %s %s %s %s", net.start, net.cidr, net.broadcast, net.start, net.last - net.end, net.last);
+
+    printf("%s /%d %s %s %s %s %s", 
+        int2ip(net.start),
+        net.cidr,
+        int2ip(net.broadcast), 
+        int2ip(net.start),
+        int2ip(net.end),
+        int2ip(net.end + 1), 
+        int2ip(net.broadcast - 1)
+    );
 }
 
 void print_table(network networks[], int n) {

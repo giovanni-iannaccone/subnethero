@@ -9,7 +9,6 @@ typedef enum {
 typedef struct {
     int start;
     int end;
-    int last;
     
     int broadcast;
 

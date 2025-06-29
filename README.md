@@ -1,6 +1,6 @@
-# 🛰️ Subnetter
+# 🛰️ Subnethero
 
-Subnetter is a powerful C-based command-line tool designed to help network administrators and IT professionals generate subnetting tables and manage IP ranges for different network configurations. Whether you're using a flat approach, FLSM (Fixed-Length Subnet Mask), or VLSM (Variable-Length Subnet Mask), this tool will streamline the process of subnetting and ensure you get precise network breakdowns.
+Subnethero is a powerful C-based command-line tool designed to help network administrators and IT professionals generate subnetting tables and manage IP ranges for different network configurations. Whether you're using a flat approach, FLSM (Fixed-Length Subnet Mask), or VLSM (Variable-Length Subnet Mask), this tool will streamline the process of subnetting and ensure you get precise network breakdowns.
 
 ## 🧮 Features
 - Multiple subnetting approaches (flat, flsm, vlsm)
@@ -9,10 +9,10 @@ Subnetter is a powerful C-based command-line tool designed to help network admin
 - Generates subnetting tables with efficient algorithm.
 
 ## 📡 Installation
-1. Download subnetter with git
+1. Download subnethero with git
 ```sh
-git clone https://github.com/giovanni-iannaccone/subnetter
-cd subnetter
+git clone https://github.com/giovanni-iannaccone/subnethero
+cd subnethero
 ```
 
 2. Compile it using make
@@ -23,10 +23,10 @@ make all
 ## 💡 Command-Line Usage
 
 ```
-subnetter v1.0
+subnethero v1.0
 
 Usage:
-subnetter [-t | -f | -v] -c cidr -i ip -d n {n devices for each network}
+subnethero [-t | -f | -v] -c cidr -i ip -d n {n devices for each network}
 
 Options:
   -t | --flat        use the flat approach
@@ -35,10 +35,10 @@ Options:
 
   -i | --ip          specify the IP of the base network
   -c | --cidr        the CIDR of the original network
-  -d | --devs        Number of subnetworks (followed by n devices for each network)
+  -s | --subs        Number of subnetworks (followed by n devices for each network)
 
 Example:
-subnetter -v -c 24 -i 192.168.1.0 -d 3 64 5 15
+subnethero -v -c 24 -i 192.168.1.0 -s 3 64 5 15
 ```
 
 ### Parameters:

@@ -2,18 +2,21 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "data.h"
 
+int all_1(int num, int start, int end);
 network build_network(int start, int end, int broadcast, int cidr);
-
-int convert_to_int(char ip[15]);
-void convert_to_ip(char ip[15], int bits);
 
 int find_power_bigger_than(int num);
 
 int get_broadcast(int ip, int cidr);
 int get_hostid(int ip, int cidr);
 int get_subnet_mask(int cidr);
+
+int ip2int(char ip[]);
+char *int2ip(int bits);
 
 void sort(int nums[], int n);

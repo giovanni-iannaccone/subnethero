@@ -28,16 +28,22 @@ int test_all_1() {
     return all_1(num, 24, 28) && !all_1(num, 25, 30);
 }
 
-int test_ip_to_int() {
+int test_int_to_ip() {
     char ip[] = "192.168.1.0";
-    return strcmp(ip, int2ip(ip2int(ip))) == 0;
+    return strcmp(ip, int2ip(3232235776)) == 0;
+}
+
+int test_ip_to_int() {
+    int num = 3232235776;
+    return num == ip2int("192.168.1.0");
 }
 
 int main() {
     printf("%s STARTING TESTS %s\n", BOLD_BLUE, RESET);
 
-    assert(test_all_1(), "all 1");
-    assert(test_ip_to_int(), "ip to int conversion");
+    assert(test_all_1(), "check all 1 bits");
+    assert(test_int_to_ip(), "int to ip conversion");
+    assert(test_ip_to_int(), "ip to int conversion"); 
 
     printf("\n");
     return 0;

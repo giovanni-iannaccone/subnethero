@@ -47,38 +47,34 @@ int get_subnet_mask(int cidr) {
     return subnet_mask;
 }
 
-char *int2ip(int bits) {
+char *int2ip(unsigned int bits) {
+    unsigned int octets[4] = {0, 0, 0, 0};
     char *ip = (char *)malloc(16 * sizeof(char));
-    int last, dots = 0, sum = 0;
-
-    for (int i = 3; i >= 0; i--) {
-        for (int j = 0; j < 8; j++) {
-            last = bits & 1;
-            sum += last * pow(2, j);
-            bits >>= 1;
-        }
-
-        sprintf(ip + i * 3 + dots, "%d", sum);
-        if (dots < 3) {
-            ip[i * 3 + dots + 1] = '.';
-            dots++;
-        }
-
-        sum = 0;
+    
+    for (int i = 0; i < 4; i++) {
+        octets[i] = bits & 0xFF;
+        bits >>= 8;
     }
+
+    int last = sprintf(ip, "%d.%d.%d.%d", octets[3], octets[2], octets[1], octets[0]);
+    ip[last] = '\0';
 
     return ip;
 }
 
-int ip2int(char ip[]) {
-    size_t i = 0;
-    int sum = 0;
+unsigned int ip2int(char ip[]) {
+    int i = -1;
+    unsigned int partial = 0, sum = 0;
 
-    while (i++ < strlen(ip))
-        if (ip[i] != '.')
-            sum = sum * 2 + (ip[i] - '0');
-
-    return sum;
+    while (ip[++i] != '\0')
+        if (ip[i] != '.') {
+            partial = partial * 10 + (ip[i] - '0');
+        } else {
+            sum = (sum << 8) + partial;
+            partial = 0;
+        }
+    
+    return (sum << 8) + partial;
 }
 
 void sort(int nums[], int n) {

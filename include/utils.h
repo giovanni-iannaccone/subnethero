@@ -16,7 +16,7 @@ int get_broadcast(int ip, int cidr);
 int get_hostid(int ip, int cidr);
 int get_subnet_mask(int cidr);
 
-int ip2int(char ip[]);
-char *int2ip(int bits);
+unsigned int ip2int(char ip[]);
+char *int2ip(unsigned int bits);
 
 void sort(int nums[], int n);

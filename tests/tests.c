@@ -28,6 +28,14 @@ int test_all_1() {
     return all_1(num, 24, 28) && !all_1(num, 25, 30);
 }
 
+int test_find_power_bigger_than() {
+    return find_power_bigger_than(5) == 3;
+}
+
+int test_get_broadcast() {
+    return get_broadcast(ip2int("192.168.1.0"), 24) == ip2int("192.168.1.255");
+}
+
 int test_int_to_ip() {
     char ip[] = "192.168.1.0";
     return strcmp(ip, int2ip(3232235776)) == 0;
@@ -42,6 +50,8 @@ int main() {
     printf("%s STARTING TESTS %s\n", BOLD_BLUE, RESET);
 
     assert(test_all_1(), "check all 1 bits");
+    assert(test_find_power_bigger_than(), "find power bigger than");
+    assert(test_get_broadcast(), "get broadcast");
     assert(test_int_to_ip(), "int to ip conversion");
     assert(test_ip_to_int(), "ip to int conversion"); 
 

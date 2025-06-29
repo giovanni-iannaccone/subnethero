@@ -33,6 +33,8 @@ tests: $(TEST_EXEC)
 $(TEST_EXEC): $(TEST_OBJS)
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CFLAGS) $(TEST_OBJS) $(LDFLAGS) -o $(TEST_EXEC)
+	@./bin/tests
+	@rm -rf ./bin/test
 
 $(BUILD_DIR)/%.o: $(TESTS_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)

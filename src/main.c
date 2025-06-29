@@ -8,6 +8,8 @@
 #include "../include/flsm.h"
 #include "../include/vlsm.h"
 
+#define VERSION "1.0"
+
 typedef struct {
     approaches approach;
 
@@ -19,7 +21,7 @@ typedef struct {
 } arguments;
 
 int compare_flag(const char value[], const char flag[], const char extended[]) {
-    return strcmp(value, flag) || strcmp(value, extended);
+    return !strcmp(value, flag) || !strcmp(value, extended);
 }
 
 int *get_devices(char *devices[], int n) {
@@ -32,7 +34,7 @@ int *get_devices(char *devices[], int n) {
 }
 
 void help(const char program_name[]) {
-    printf("%s v1.0\n Usage:\n", program_name);
+    printf("%s v%s\n Usage:\n", program_name, VERSION);
 
     printf("%s [-t | -f | -v] -c cidr -i ip -d n {n devices for each network}\n\n", program_name);
 
@@ -65,10 +67,10 @@ arguments parse_arguments(int argc, char *argv[]) {
         
         else if (compare_flag(argv[i], "-i", "--ip"))
             args.ip = ip2int(argv[i + 1]);
-        
+
         else if (compare_flag(argv[i], "-s", "--subs")) {
             args.n_networks = atoi(argv[i + 1]);
-            args.devices = get_devices(argv + i + 2, argc - i - 1);
+            args.devices = get_devices(argv + i + 2, atoi(argv[i + 1]));
         }
     
     return args;
@@ -76,7 +78,7 @@ arguments parse_arguments(int argc, char *argv[]) {
 
 void print_net(network net) {
 
-    printf("%s /%d %s %s %s %s %s", 
+    printf("|%s | /%d  | %s | %s | %s | %s | %s |", 
         int2ip(net.start),
         net.cidr,
         int2ip(net.broadcast), 
@@ -88,25 +90,26 @@ void print_net(network net) {
 }
 
 void print_table(network networks[], int n) {
-    printf("|    IP   | CIDR | Broadcast |   Start   |     End    | Free from |    to    |\n");
+    printf("|     IP     | CIDR |   Broadcast   |    Start    |     End      |  Free from   |       to      |\n");
+    printf("-------------------------------------------------------------------------------------------------\n");
 
     for (int i = 0; i < n; i++)
         print_net(networks[i]);
 }
 
 int run(const arguments args, network networks[]) {
-    if (args.approach == flat_approach) 
+    if (args.approach == flat_approach)
         return flat(networks, args.devices, args.ip, args.cidr, args.n_networks);
 
     else if (args.approach == flsm_approach)
         return flsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
 
     else
-        return vlsm(networks, args.devices, args.ip, args.cidr, args.n_networks);    
+        return vlsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
 }
 
 int main(int argc, char *argv[]) {
-    if (argc < 5) {
+    if (argc < 6) {
         help(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -115,10 +118,13 @@ int main(int argc, char *argv[]) {
     network *networks = (network*)malloc(args.n_networks * sizeof(network));
 
     int len = run(args, networks);
-    if (len == 0)
+    if (len == 0) {
         printf("This approach can't be used on this network");
-    else 
-        print_table(networks, args.n_networks);
+        exit(EXIT_FAILURE);
+
+    } else {
+        print_table(networks, len);
+    }
     
     printf("\n\n");
     return 0;

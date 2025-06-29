@@ -26,7 +26,7 @@ make all
 subnethero v1.0
 
 Usage:
-subnethero [-t | -f | -v] -c cidr -i ip -d n {n devices for each network}
+subnethero [-t | -f | -v] -c cidr -i ip -s n {n devices for each network}
 
 Options:
   -t | --flat        use the flat approach
@@ -58,7 +58,7 @@ Enter the starting IP address of the network you want to subnet (e.g., 192.168.1
 - `-c` | `--cidr` <br/>
 Specify the CIDR notation for the original network (e.g., /24).
 
-- `-d` | `--devs` <br/>
+- `-s` | `--subs` <br/>
 Define the number of subnets you need, followed by the number of devices in each subnet. The tool will calculate the necessary subnet masks.
 
 ## 🛸 Output Format
@@ -72,18 +72,12 @@ For each subnet, the output will generate the following columns:
 | 192.168.1.72 |   /28	 | 192.168.1.87	| 192.168.1.73 | 192.168.1.86 |	192.168.1.74 | 192.168.1.85 |
 
 ## 🧩 Contributing
-We welcome contributions! Please follow these steps:
+We welcome contributing. See CONTRIBUTING.md file for details
 
-1. Fork the repository.
-2. Create a new branch ( using <a href="https://medium.com/@abhay.pixolo/naming-conventions-for-git-branches-a-cheatsheet-8549feca2534">this</a> convention).
-3. Make your changes and commit them with descriptive messages.
-4. Push your changes to your fork.
-5. Create a pull request to the main repository.
-
-## ⚖ License
+## ⚖️ License
 This project is licensed under the GPL-3.0 License. See the LICENSE file for details.
 
-## ⚔ Contact
+## ⚔️ Contact
 - For any inquiries or support, please contact <a href="mailto:iannacconegiovanni444@gmail.com"> iannacconegiovanni444@gmail.com </a>.
 - Visit my site for more informations about me and my work <a href="https://giovanni-iannaccone.gith
 ub.io" target=”_blank” rel="noopener noreferrer"> https://giovanni-iannaccone.github.io </a>

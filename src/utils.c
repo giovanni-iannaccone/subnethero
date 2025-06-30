@@ -1,13 +1,13 @@
 #include "../include/utils.h"
 
 int all_1(int num, int start, int end) {  
-    int i = 32;
-    for (; i > end; i--)
+    num >>= 32 - end;
+
+    int i = 0;
+    while (num & 1 && i < end - start) {
         num >>= 1;
-    
-    i = 0;
-    while (num & 1 && i++ < end - start)
-        num >>= 1;
+        i++;
+    }
 
     return i == end - start;
 }

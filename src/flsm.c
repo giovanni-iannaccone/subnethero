@@ -21,6 +21,8 @@ int flsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
         }
         
         (*networks)[i] = build_network(ip + 1, ip + n_devices, get_broadcast(ip, new_cidr), new_cidr);
+        if ((*networks)[i].broadcast <= (*networks)[i].end)
+            return 0;
 
         ip += pow(2, 32 - new_cidr);
         i++;

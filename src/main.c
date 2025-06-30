@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
 
     int len = run(args, &networks);
     if (len == 0) {
-        printf("This approach can't be used on this network");
+        printf("This approach can't be used on this network\n");
         exit(EXIT_FAILURE);
     
     } else {

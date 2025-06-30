@@ -12,8 +12,8 @@ int all_1(int num, int start, int end) {
     return i == end - start;
 }
 
-network build_network(int start, int end, int broadcast, int cidr) {
-    network net = {start, end, broadcast, cidr};
+network build_network(int ip, int n_devices, int cidr) {
+    network net = {ip + 1, ip + n_devices, get_broadcast(ip, cidr), cidr};
     return net;
 }
 
@@ -75,6 +75,14 @@ unsigned int ip2int(char ip[]) {
         }
     
     return (sum << 8) + partial;
+}
+
+int not_valid(network net) {
+    return net.broadcast <= net.end;
+}
+
+network *realloc_network(network *ptr, int size) {
+    return (network *)realloc(ptr, size * sizeof(network));
 }
 
 void sort(int nums[], int n) {

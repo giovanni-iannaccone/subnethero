@@ -9,7 +9,7 @@ int vlsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
     
     do {
         if (i >= n_networks) {
-            *networks = (network *)realloc(*networks, (i + 1) * sizeof(network));
+            *networks = realloc_network(*networks, i + 1);
             n_devices = 1;
 
         } else {
@@ -20,8 +20,8 @@ int vlsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
             n_devices = devices[i];
         }
 
-        (*networks)[i] = build_network(ip + 1, ip + n_devices, get_broadcast(ip, new_cidr), new_cidr);
-        if ((*networks)[i].broadcast <= (*networks)[i].end)
+        (*networks)[i] = build_network(ip, n_devices, new_cidr);
+        if (not_valid((*networks)[i]))
             return 0;
         
         ip += 1 * pow(2, 32 - new_cidr);
@@ -29,8 +29,8 @@ int vlsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
 
     } while(!all_1(ip, cidr, new_cidr));
 
-    *networks = (network *)realloc(*networks, (i + 1) * sizeof(network));
-    (*networks)[i] = build_network(ip + 1, ip + n_devices, get_broadcast(ip, new_cidr), new_cidr);
+    *networks = realloc_network(*networks, i + 1);
+    (*networks)[i] = build_network(ip, n_devices, new_cidr);
 
     return i;
 }

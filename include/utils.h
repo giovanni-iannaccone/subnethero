@@ -8,7 +8,7 @@
 #include "data.h"
 
 int all_1(int num, int start, int end);
-network build_network(int start, int end, int broadcast, int cidr);
+network build_network(int ip, int n_devices, int cidr);
 
 int find_power_bigger_than(int num);
 
@@ -19,4 +19,6 @@ int get_subnet_mask(int cidr);
 unsigned int ip2int(char ip[]);
 char *int2ip(unsigned int bits);
 
+int not_valid(network net);
+network *realloc_network(network *ptr, int size);
 void sort(int nums[], int n);

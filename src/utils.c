@@ -19,7 +19,7 @@ network build_network(int start, int end, int broadcast, int cidr) {
 
 int find_power_bigger_than(int num) {
     for (int i = 0; i < 32; i++) 
-        if (pow(2, i) >= num)
+        if (pow(2, i) > num)
             return i;
     
     return 0;

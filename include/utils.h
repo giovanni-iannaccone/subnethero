@@ -17,7 +17,7 @@ int get_hostid(int ip, int cidr);
 int get_subnet_mask(int cidr);
 
 unsigned int ip2int(char ip[]);
-char *int2ip(unsigned int bits);
+char *int2ip(char ip[], unsigned int bits);
 
 int not_valid(network net);
 network *realloc_network(network *ptr, int size);

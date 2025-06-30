@@ -47,9 +47,8 @@ int get_subnet_mask(int cidr) {
     return subnet_mask;
 }
 
-char *int2ip(unsigned int bits) {
+char *int2ip(char ip[], unsigned int bits) {
     unsigned int octets[4] = {0, 0, 0, 0};
-    char *ip = (char *)malloc(16 * sizeof(char));
     
     for (int i = 0; i < 4; i++) {
         octets[i] = bits & 0xFF;

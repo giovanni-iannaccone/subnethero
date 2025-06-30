@@ -77,16 +77,19 @@ arguments parse_arguments(int argc, char *argv[]) {
 }
 
 void print_net(network net) {
-    // free in this
+    char *buffer = (char *)malloc(16 * sizeof(char));
+
     printf("|%s | /%d  | %s | %s | %s | %s | %s |\n", 
-        int2ip(net.start - 1),
+        int2ip(buffer, net.start - 1),
         net.cidr,
-        int2ip(net.broadcast), 
-        int2ip(net.start),
-        int2ip(net.end),
-        int2ip(net.end + 1), 
-        int2ip(net.broadcast - 1)
+        int2ip(buffer, net.broadcast), 
+        int2ip(buffer, net.start),
+        int2ip(buffer, net.end),
+        int2ip(buffer, net.end + 1), 
+        int2ip(buffer, net.broadcast - 1)
     );
+
+    free(buffer);
 }
 
 void print_table(network networks[], int n) {

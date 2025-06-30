@@ -77,9 +77,9 @@ arguments parse_arguments(int argc, char *argv[]) {
 }
 
 void print_net(network net) {
-
-    printf("|%s | /%d  | %s | %s | %s | %s | %s |", 
-        int2ip(net.start),
+    // free in this
+    printf("|%s | /%d  | %s | %s | %s | %s | %s |\n", 
+        int2ip(net.start - 1),
         net.cidr,
         int2ip(net.broadcast), 
         int2ip(net.start),
@@ -97,7 +97,7 @@ void print_table(network networks[], int n) {
         print_net(networks[i]);
 }
 
-int run(const arguments args, network networks[]) {
+int run(const arguments args, network **networks) {
     if (args.approach == flat_approach)
         return flat(networks, args.devices, args.ip, args.cidr, args.n_networks);
 
@@ -115,17 +115,20 @@ int main(int argc, char *argv[]) {
     }
     
     arguments args = parse_arguments(argc, argv);
-    network *networks = (network*)malloc(args.n_networks * sizeof(network));
+    network *networks;
 
-    int len = run(args, networks);
+    int len = run(args, &networks);
     if (len == 0) {
         printf("This approach can't be used on this network");
         exit(EXIT_FAILURE);
-
+    
     } else {
         print_table(networks, len);
     }
     
+    free(networks);
+    free(args.devices);
+
     printf("\n\n");
     return 0;
 }

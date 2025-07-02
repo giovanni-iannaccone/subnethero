@@ -21,17 +21,16 @@ int export_csv(FILE* csv, network networks[], int n) {
     char *buffer = (char *)malloc(16 * sizeof(char));
     fprintf(csv, "IP, CIDR, Broadcast, Start, End, Free from, to\n");
 
-    for (int i = 0; i < n; i++)
-        fprintf(csv, "%s, /%d, %s, %s, %s, %s, %s\n", 
-            int2ip(buffer, networks[i].start - 1),
-            networks[i].cidr,
-            int2ip(buffer, networks[i].broadcast), 
-            int2ip(buffer, networks[i].start),
-            int2ip(buffer, networks[i].end),
-            int2ip(buffer, networks[i].end + 1), 
-            int2ip(buffer, networks[i].broadcast - 1)
-        );
-    
+    for (int i = 0; i < n; i++) {
+        fprintf(csv, "| %s |", int2ip(buffer, networks[i].start - 1));
+        fprintf(csv, " /%d  |", networks[i].cidr);
+        fprintf(csv, " %s |", int2ip(buffer, networks[i].broadcast));
+        fprintf(csv, " %s |", int2ip(buffer, networks[i].start));
+        fprintf(csv, " %s |", int2ip(buffer, networks[i].end));
+        fprintf(csv, "  %s |", int2ip(buffer, networks[i].end + 1));
+        fprintf(csv, " %s |\n", int2ip(buffer, networks[i].broadcast - 1));
+    }
+
     free(buffer);
 }
 

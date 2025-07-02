@@ -22,7 +22,7 @@ typedef struct {
     char *output;
 } arguments;
 
-int compare_flag(const char value[], const char flag[], const char extended[]) {
+static inline int compare_flag(const char value[], const char flag[], const char extended[]) {
     return !strcmp(value, flag) || !strcmp(value, extended);
 }
 
@@ -85,15 +85,13 @@ arguments parse_arguments(int argc, char *argv[]) {
 void print_net(network net) {
     char *buffer = (char *)malloc(16 * sizeof(char));
 
-    printf("|%s | /%d  | %s | %s | %s | %s | %s |\n", 
-        int2ip(buffer, net.start - 1),
-        net.cidr,
-        int2ip(buffer, net.broadcast), 
-        int2ip(buffer, net.start),
-        int2ip(buffer, net.end),
-        int2ip(buffer, net.end + 1), 
-        int2ip(buffer, net.broadcast - 1)
-    );
+    printf("| %s |", int2ip(buffer, net.start - 1));
+    printf(" /%d  |", net.cidr);
+    printf(" %s |", int2ip(buffer, net.broadcast));
+    printf(" %s |", int2ip(buffer, net.start));
+    printf(" %s |", int2ip(buffer, net.end));
+    printf("  %s |", int2ip(buffer, net.end + 1));
+    printf(" %s |\n", int2ip(buffer, net.broadcast - 1));
 
     free(buffer);
 }

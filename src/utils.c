@@ -22,13 +22,13 @@ int export_csv(FILE* csv, network networks[], int n) {
     fprintf(csv, "IP, CIDR, Broadcast, Start, End, Free from, to\n");
 
     for (int i = 0; i < n; i++) {
-        fprintf(csv, "| %s |", int2ip(buffer, networks[i].start - 1));
-        fprintf(csv, " /%d  |", networks[i].cidr);
-        fprintf(csv, " %s |", int2ip(buffer, networks[i].broadcast));
-        fprintf(csv, " %s |", int2ip(buffer, networks[i].start));
-        fprintf(csv, " %s |", int2ip(buffer, networks[i].end));
-        fprintf(csv, "  %s |", int2ip(buffer, networks[i].end + 1));
-        fprintf(csv, " %s |\n", int2ip(buffer, networks[i].broadcast - 1));
+        fprintf(csv, "%s, ", int2ip(buffer, networks[i].start - 1));
+        fprintf(csv, "/%d, ", networks[i].cidr);
+        fprintf(csv, "%s, ", int2ip(buffer, networks[i].broadcast));
+        fprintf(csv, "%s, ", int2ip(buffer, networks[i].start));
+        fprintf(csv, "%s, ", int2ip(buffer, networks[i].end));
+        fprintf(csv, "%s, ", int2ip(buffer, networks[i].end + 1));
+        fprintf(csv, "%s\n", int2ip(buffer, networks[i].broadcast - 1));
     }
 
     free(buffer);

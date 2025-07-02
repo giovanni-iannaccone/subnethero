@@ -18,6 +18,8 @@ typedef struct {
 
     int n_networks;
     int *devices;
+
+    char *output;
 } arguments;
 
 int compare_flag(const char value[], const char flag[], const char extended[]) {
@@ -46,11 +48,13 @@ void help(const char program_name[]) {
     printf("-c | --cidr\t\tthe CIDR of the original network\n");
     printf("-s | --subs\t\tnumber of subnetworks (followed by n devices for each network)\n\n");
 
+    printf("-o | --output-file\tcopy the output into csv file (optional)\n\n");
+
     printf("Example: %s -v -c 24 -i 192.168.1.0 -s 3 64 5 15\n\n", program_name);
 }
 
 arguments parse_arguments(int argc, char *argv[]) {
-    arguments args = {flat_approach, 24, 0, 0, NULL};
+    arguments args = {flat_approach, 24, 0, 0, NULL, NULL};
 
     for (int i = 0; i < argc; i++)
         if (compare_flag(argv[i], "-t", "--flat"))
@@ -71,7 +75,9 @@ arguments parse_arguments(int argc, char *argv[]) {
         else if (compare_flag(argv[i], "-s", "--subs")) {
             args.n_networks = atoi(argv[i + 1]);
             args.devices = get_devices(argv + i + 2, atoi(argv[i + 1]));
-        }
+        
+        } else if (compare_flag(argv[i], "-o", "--output-file"))
+            args.output = argv[i + 1];
     
     return args;
 }
@@ -125,8 +131,13 @@ int main(int argc, char *argv[]) {
         printf("This approach can't be used on this network\n");
         exit(EXIT_FAILURE);
     
-    } else {
+    } else if (args.output == NULL ){
         print_table(networks, len);
+    
+    } else {
+        FILE *fd = fopen(args.output, "w");
+        export_csv(fd, networks, len);
+        fclose(fd);
     }
     
     free(networks);

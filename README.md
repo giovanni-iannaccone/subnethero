@@ -37,8 +37,9 @@ Options:
   -c | --cidr        the CIDR of the original network
   -s | --subs        Number of subnetworks (followed by n devices for each network)
 
-Example:
-subnethero -v -c 24 -i 192.168.1.0 -s 3 64 5 15
+  -o | --output-file copy the output into csv filecopy the output into csv file (optional)
+
+Example: subnethero -v -c 24 -i 192.168.1.0 -s 3 64 5 15
 ```
 
 ### Parameters:
@@ -60,6 +61,9 @@ Specify the CIDR notation for the original network (e.g., /24).
 
 - `-s` | `--subs` <br/>
 Define the number of subnets you need, followed by the number of devices in each subnet. The tool will calculate the necessary subnet masks.
+
+- `-o` | `--output-file` <br/>
+Copy the output to a csv file (e.g., output.csv), don't specify anything to print the table to stdout.
 
 ## 🛸 Output Format
 

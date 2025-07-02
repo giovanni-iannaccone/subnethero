@@ -17,6 +17,24 @@ network build_network(int ip, int n_devices, int cidr) {
     return net;
 }
 
+int export_csv(FILE* csv, network networks[], int n) {
+    char *buffer = (char *)malloc(16 * sizeof(char));
+    fprintf(csv, "IP, CIDR, Broadcast, Start, End, Free from, to\n");
+
+    for (int i = 0; i < n; i++)
+        fprintf(csv, "%s, /%d, %s, %s, %s, %s, %s\n", 
+            int2ip(buffer, networks[i].start - 1),
+            networks[i].cidr,
+            int2ip(buffer, networks[i].broadcast), 
+            int2ip(buffer, networks[i].start),
+            int2ip(buffer, networks[i].end),
+            int2ip(buffer, networks[i].end + 1), 
+            int2ip(buffer, networks[i].broadcast - 1)
+        );
+    
+    free(buffer);
+}
+
 int find_power_bigger_than(int num) {
     for (int i = 0; i < 32; i++) 
         if (pow(2, i) > num)

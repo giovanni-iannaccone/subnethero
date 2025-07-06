@@ -9,7 +9,7 @@ BUILD_DIR = build
 SRC_DIR = src
 TESTS_DIR = tests
 
-SRCS = $(SRC_DIR)/flat.c $(SRC_DIR)/flsm.c $(SRC_DIR)/lookup.c $(SRC_DIR)/main.c $(SRC_DIR)/utils.c $(SRC_DIR)/vlsm.c
+SRCS = $(SRC_DIR)/*
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 TESTS = $(SRC_DIR)/flat.c $(SRC_DIR)/flsm.c $(SRC_DIR)/utils.c $(SRC_DIR)/vlsm.c $(TESTS_DIR)/tests.c

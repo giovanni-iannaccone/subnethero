@@ -38,7 +38,7 @@ int test_get_broadcast() {
 
 int test_int_to_ip() {
     char ip[] = "192.168.1.0";
-    return strcmp(ip, int2ip(3232235776)) == 0;
+    return strcmp(ip, int2ip(NULL, 3232235776)) == 0;
 }
 
 int test_ip_to_int() {

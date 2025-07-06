@@ -12,7 +12,7 @@ TESTS_DIR = tests
 SRCS = $(SRC_DIR)/*
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
-TESTS = $(SRC_DIR)/flat.c $(SRC_DIR)/flsm.c $(SRC_DIR)/utils.c $(SRC_DIR)/vlsm.c $(TESTS_DIR)/tests.c
+TESTS = $(SRC_DIR)/csv.c $(SRC_DIR)/flat.c $(SRC_DIR)/flsm.c $(SRC_DIR)/utils.c $(SRC_DIR)/vlsm.c $(TESTS_DIR)/tests.c
 TEST_OBJS = $(TESTS:$(TESTS_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 all: $(EXEC)

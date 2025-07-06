@@ -1,5 +1,7 @@
 #pragma once
 
+#define NO_DEVICES -1
+
 typedef enum {
     flat_approach,
     flsm_approach,

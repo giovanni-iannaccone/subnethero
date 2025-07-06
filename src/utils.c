@@ -13,8 +13,10 @@ int all_1(int num, int start, int end) {
 }
 
 network build_network(int ip, int n_devices, int cidr) {
-    network net = {ip + 1, ip + n_devices, get_broadcast(ip, cidr), cidr};
-    return net;
+    if (n_devices == NO_DEVICES)
+        return (network){ip + 1, 0, get_broadcast(ip, cidr), cidr};
+    else 
+        return (network){ip + 1, ip + n_devices, get_broadcast(ip, cidr), cidr};
 }
 
 int export_csv(FILE* csv, network networks[], int n) {
@@ -25,9 +27,15 @@ int export_csv(FILE* csv, network networks[], int n) {
         fprintf(csv, "%s, ", int2ip(buffer, networks[i].start - 1));
         fprintf(csv, "/%d, ", networks[i].cidr);
         fprintf(csv, "%s, ", int2ip(buffer, networks[i].broadcast));
-        fprintf(csv, "%s, ", int2ip(buffer, networks[i].start));
-        fprintf(csv, "%s, ", int2ip(buffer, networks[i].end));
-        fprintf(csv, "%s, ", int2ip(buffer, networks[i].end + 1));
+
+        if (networks[i].end != 0) {
+            fprintf(csv, " %s, ", int2ip(buffer, networks[i].start));
+            fprintf(csv, " %s, ", int2ip(buffer, networks[i].end));
+            fprintf(csv, "  %s, ", int2ip(buffer, networks[i].end + 1));
+        } else {
+            fprintf(csv, " //, //, %s,", int2ip(buffer, networks[i].start));
+        }
+        
         fprintf(csv, "%s\n", int2ip(buffer, networks[i].broadcast - 1));
     }
 
@@ -94,7 +102,7 @@ unsigned int ip2int(char ip[]) {
 }
 
 int not_valid(network net) {
-    return net.broadcast <= net.end;
+    return net.broadcast <= net.end && net.end != 0;
 }
 
 network *realloc_network(network *ptr, int size) {

@@ -10,7 +10,7 @@ int vlsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
     do {
         if (i >= n_networks) {
             *networks = realloc_network(*networks, i + 1);
-            n_devices = 1;
+            n_devices = NO_DEVICES;
 
         } else {
             new_cidr = 32 - find_power_bigger_than(devices[i] + 2);
@@ -30,7 +30,7 @@ int vlsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
     } while(!all_1(ip, cidr, new_cidr));
 
     *networks = realloc_network(*networks, i + 1);
-    (*networks)[i] = build_network(ip, n_devices, new_cidr);
+    (*networks)[i] = build_network(ip, NO_DEVICES, new_cidr);
 
     return i;
 }

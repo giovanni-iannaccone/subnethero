@@ -88,9 +88,15 @@ void print_net(network net) {
     printf("| %s |", int2ip(buffer, net.start - 1));
     printf(" /%d  |", net.cidr);
     printf(" %s |", int2ip(buffer, net.broadcast));
-    printf(" %s |", int2ip(buffer, net.start));
-    printf(" %s |", int2ip(buffer, net.end));
-    printf("  %s |", int2ip(buffer, net.end + 1));
+    
+    if (net.end != 0) {
+        printf(" %s |", int2ip(buffer, net.start));
+        printf(" %s |", int2ip(buffer, net.end));
+        printf("  %s |", int2ip(buffer, net.end + 1));
+    } else {
+        printf(" // | // | %s |", int2ip(buffer, net.start));
+    }
+
     printf(" %s |\n", int2ip(buffer, net.broadcast - 1));
 
     free(buffer);
@@ -105,22 +111,17 @@ void print_table(network networks[], int n) {
 }
 
 int run(const arguments args, network **networks) {
-    int len = 0;
-
+    
     switch (args.approach) {
         case flat_approach:
-            len = flat(networks, args.devices, args.ip, args.cidr, args.n_networks);
-            break;
+            return flat(networks, args.devices, args.ip, args.cidr, args.n_networks);
 
         case flsm_approach:
-            len = flsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
-            break;
+            return flsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
 
         default:
-            len = vlsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
+            return vlsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
     }
-
-    return len;
 }
 
 int main(int argc, char *argv[]) {
@@ -132,17 +133,17 @@ int main(int argc, char *argv[]) {
     arguments args = parse_arguments(argc, argv);
     network *networks;
 
-    int len = run(args, &networks);
-    if (len == 0) {
+    int n_networks = run(args, &networks);
+    if (n_networks == 0) {
         printf("This approach can't be used on this network\n");
         exit(EXIT_FAILURE);
     
     } else if (args.output == NULL){
-        print_table(networks, len);
+        print_table(networks, n_networks);
     
     } else {
         FILE *fd = fopen(args.output, "w");
-        export_csv(fd, networks, len);
+        export_csv(fd, networks, n_networks);
         fclose(fd);
     }
     

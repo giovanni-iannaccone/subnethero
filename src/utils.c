@@ -13,10 +13,11 @@ int all_1(int num, int start, int end) {
 }
 
 network build_network(int ip, int n_devices, int cidr) {
+    network net = {ip + 1, ip + n_devices, get_broadcast(ip, cidr), cidr};
     if (n_devices == NO_DEVICES)
-        return (network){ip + 1, 0, get_broadcast(ip, cidr), cidr};
-    else 
-        return (network){ip + 1, ip + n_devices, get_broadcast(ip, cidr), cidr};
+        set_free(&net);
+
+    return net;
 }
 
 int export_csv(FILE* csv, network networks[], int n) {
@@ -28,12 +29,12 @@ int export_csv(FILE* csv, network networks[], int n) {
         fprintf(csv, "/%d, ", networks[i].cidr);
         fprintf(csv, "%s, ", int2ip(buffer, networks[i].broadcast));
 
-        if (networks[i].end != 0) {
+        if (is_free(networks[i])) {
+            fprintf(csv, " //, //, %s,", int2ip(buffer, networks[i].start));
+        } else {
             fprintf(csv, " %s, ", int2ip(buffer, networks[i].start));
             fprintf(csv, " %s, ", int2ip(buffer, networks[i].end));
             fprintf(csv, "  %s, ", int2ip(buffer, networks[i].end + 1));
-        } else {
-            fprintf(csv, " //, //, %s,", int2ip(buffer, networks[i].start));
         }
         
         fprintf(csv, "%s\n", int2ip(buffer, networks[i].broadcast - 1));
@@ -61,6 +62,10 @@ int get_broadcast(int ip, int cidr) {
 
 int get_hostid(int ip, int cidr) {
     return ip & get_subnet_mask(cidr);
+}
+
+int get_next_subnet_ip(int ip, int cidr) {
+    return ip + pow(2, 32 - cidr);
 }
 
 int get_subnet_mask(int cidr) {
@@ -101,12 +106,20 @@ unsigned int ip2int(char ip[]) {
     return (sum << 8) + partial;
 }
 
+int is_free(network net) {
+    return net.end == 0;
+}
+
 int not_valid(network net) {
     return net.broadcast <= net.end && net.end != 0;
 }
 
 network *realloc_network(network *ptr, int size) {
     return (network *)realloc(ptr, size * sizeof(network));
+}
+
+void set_free(network *net) {
+    net->end = 0;
 }
 
 void sort(int nums[], int n) {

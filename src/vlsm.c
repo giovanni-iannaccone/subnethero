@@ -24,7 +24,7 @@ int vlsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
         if (not_valid((*networks)[i]))
             return 0;
         
-        ip += 1 * pow(2, 32 - new_cidr);
+        ip = get_next_subnet_ip(ip, new_cidr);
         i++;
 
     } while(!all_1(ip, cidr, new_cidr));
@@ -32,5 +32,5 @@ int vlsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
     *networks = realloc_network(*networks, i + 1);
     (*networks)[i] = build_network(ip, NO_DEVICES, new_cidr);
 
-    return i;
+    return i + 1;
 }

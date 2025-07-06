@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "../include/data.h"
+#include "../include/utils.h"
 
 #include "../include/flat.h"
 #include "../include/flsm.h"
@@ -89,12 +90,12 @@ void print_net(network net) {
     printf(" /%d  |", net.cidr);
     printf(" %s |", int2ip(buffer, net.broadcast));
     
-    if (net.end != 0) {
+    if (is_free(net)) {
+        printf(" // | // | %s |", int2ip(buffer, net.start));
+    } else {
         printf(" %s |", int2ip(buffer, net.start));
         printf(" %s |", int2ip(buffer, net.end));
         printf("  %s |", int2ip(buffer, net.end + 1));
-    } else {
-        printf(" // | // | %s |", int2ip(buffer, net.start));
     }
 
     printf(" %s |\n", int2ip(buffer, net.broadcast - 1));
@@ -111,7 +112,7 @@ void print_table(network networks[], int n) {
 }
 
 int run(const arguments args, network **networks) {
-    
+
     switch (args.approach) {
         case flat_approach:
             return flat(networks, args.devices, args.ip, args.cidr, args.n_networks);

@@ -4,10 +4,6 @@ int get_cidr(int cidr, int n_occupied_networks) {
     return cidr + find_power_bigger_than(n_occupied_networks);
 }
 
-int get_next_subnet_ip(int ip, int cidr) {
-    return ip + pow(2, 32 - cidr);
-}
-
 int flsm(network **networks, int devices[], int ip, int cidr, int n_occupied_networks) {
     int n_devices = 0;
 

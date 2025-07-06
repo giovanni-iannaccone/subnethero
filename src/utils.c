@@ -20,7 +20,7 @@ network build_network(int ip, int n_devices, int cidr) {
     return net;
 }
 
-int export_csv(FILE* csv, network networks[], int n) {
+void export_csv(FILE* csv, network networks[], int n) {
     char *buffer = (char *)malloc(16 * sizeof(char));
     fprintf(csv, "IP, CIDR, Broadcast, Start, End, Free from, to\n");
 

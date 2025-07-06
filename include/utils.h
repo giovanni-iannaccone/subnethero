@@ -10,7 +10,7 @@
 int all_1(int num, int start, int end);
 network build_network(int ip, int n_devices, int cidr);
 
-int export_csv(FILE* csv, network networks[], int n);
+void export_csv(FILE* csv, network networks[], int n);
 int find_power_bigger_than(int num);
 
 int get_broadcast(int ip, int cidr);

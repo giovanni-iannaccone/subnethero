@@ -5,6 +5,8 @@
 #include "../include/data.h"
 #include "../include/utils.h"
 
+#include "../include/lookup.h"
+
 #include "../include/flat.h"
 #include "../include/flsm.h"
 #include "../include/vlsm.h"
@@ -21,6 +23,7 @@ typedef struct {
     int *devices;
 
     char *output;
+    int iplookup;
 } arguments;
 
 static inline int compare_flag(const char value[], const char flag[], const char extended[]) {
@@ -49,13 +52,15 @@ void help(const char program_name[]) {
     printf("-c | --cidr\t\tthe CIDR of the original network\n");
     printf("-s | --subs\t\tnumber of subnetworks (followed by n devices for each network)\n\n");
 
-    printf("-o | --output\t\tcopy the output into csv file (optional)\n\n");
+    printf("Optional:\n");
+    printf("-o | --output\t\tcopy the output into csv file\n");
+    printf("-l | --lookup\t\tfind which subnet owns an ip\n\n");
 
     printf("Example: %s -v -c 24 -i 192.168.1.0 -s 3 64 5 15\n\n", program_name);
 }
 
 arguments parse_arguments(int argc, char *argv[]) {
-    arguments args = {flat_approach, 24, 0, 0, NULL, NULL};
+    arguments args = {flat_approach, 24, 0, 0, NULL, NULL, 0};
 
     for (int i = 0; i < argc; i++)
         if (compare_flag(argv[i], "-t", "--flat"))
@@ -79,6 +84,9 @@ arguments parse_arguments(int argc, char *argv[]) {
         
         } else if (compare_flag(argv[i], "-o", "--output"))
             args.output = argv[i + 1];
+        
+        else if (compare_flag(argv[i], "-l", "--lookup"))
+            args.iplookup = ip2int(argv[i + 1]);
     
     return args;
 }
@@ -131,6 +139,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
+    char buffer[16];
     arguments args = parse_arguments(argc, argv);
     network *networks;
 
@@ -139,7 +148,16 @@ int main(int argc, char *argv[]) {
         printf("This approach can't be used on this network\n");
         exit(EXIT_FAILURE);
     
-    } else if (args.output == NULL){
+    } else if (args.iplookup) {
+        unsigned int subnet = lookup(networks, n_networks, args.iplookup);
+        if (subnet == 0) {
+            printf("%s is not in this network", int2ip(buffer, args.iplookup));
+        } else {
+            printf("%s is in ", int2ip(buffer, args.iplookup));
+            printf("%s subnet", int2ip(buffer, subnet));
+        }
+        
+    } else if (args.output == NULL) {
         print_table(networks, n_networks);
     
     } else {
@@ -147,7 +165,7 @@ int main(int argc, char *argv[]) {
         export_csv(fd, networks, n_networks);
         fclose(fd);
     }
-    
+
     free(networks);
     free(args.devices);
 

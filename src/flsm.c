@@ -7,7 +7,7 @@ int flsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
         return 0;
 
     int n_devices = 0;
-
+    
     *networks = (network *)malloc(pow(2, new_cidr - cidr) * sizeof(network));
 
     while (!all_1(ip, cidr, new_cidr)) {
@@ -24,7 +24,7 @@ int flsm(network **networks, int devices[], int ip, int cidr, int n_networks) {
         i++;
     }
 
-    (*networks)[i] = build_network(ip, n_devices, new_cidr);
+    (*networks)[i] = build_network(ip, 1, new_cidr);
 
-    return i;
+    return i + 1;
 }

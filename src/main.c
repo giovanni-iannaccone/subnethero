@@ -105,14 +105,22 @@ void print_table(network networks[], int n) {
 }
 
 int run(const arguments args, network **networks) {
-    if (args.approach == flat_approach)
-        return flat(networks, args.devices, args.ip, args.cidr, args.n_networks);
+    int len = 0;
 
-    else if (args.approach == flsm_approach)
-        return flsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
+    switch (args.approach) {
+        case flat_approach:
+            len = flat(networks, args.devices, args.ip, args.cidr, args.n_networks);
+            break;
 
-    else
-        return vlsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
+        case flsm_approach:
+            len = flsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
+            break;
+
+        default:
+            len = vlsm(networks, args.devices, args.ip, args.cidr, args.n_networks);
+    }
+
+    return len;
 }
 
 int main(int argc, char *argv[]) {

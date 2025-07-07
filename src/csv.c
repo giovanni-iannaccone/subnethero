@@ -9,6 +9,7 @@ int count_lines(FILE *fd) {
         n++;
     
     rewind(fd);
+    free(line);
     return n - 1;
 }
 

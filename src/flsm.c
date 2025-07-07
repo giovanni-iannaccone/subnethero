@@ -8,7 +8,7 @@ int flsm(network **networks, int devices[], int ip, int cidr, int n_occupied_net
     int n_devices = 0;
 
     int new_cidr = get_cidr(cidr, n_occupied_networks);
-    if (new_cidr < cidr)
+    if (new_cidr >= 32)
         return 0;
     
     int n_total_networks = pow(2, new_cidr - cidr);

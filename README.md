@@ -2,6 +2,15 @@
   <img src="assets/logo.png" alt="Logo">
 </p>
 
+
+![License](https://img.shields.io/github/license/giovanni-iannaccone/subnethero)
+[![Number of GitHub issues that are open](https://img.shields.io/github/issues/giovanni-iannaccone/subnethero)](https://github.com/giovanni-iannaccone/subnethero/issues)
+![Number of GitHub closed issues](https://img.shields.io/github/issues-closed/giovanni-iannaccone/subnethero)
+![Number of GitHub pull requests that are open](https://img.shields.io/github/issues-pr-raw/giovanni-iannaccone/subnethero)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/giovanni-iannaccone/subnethero)
+![Number of GitHub contributors](https://img.shields.io/github/contributors/giovanni-iannaccone/subnethero)
+[![Number of GitHub stars](https://img.shields.io/github/stars/giovanni-iannaccone/subnethero)](https://github.com/giovanni-iannaccone/subnethero/stargazers)
+
 # 🦸‍♂️ Subnethero
 
 Subnethero is a powerful C-based command-line tool designed to help network administrators and IT professionals generate subnetting tables and manage IP ranges for different network configurations. Whether you're using a flat approach, FLSM (Fixed-Length Subnet Mask), or VLSM (Variable-Length Subnet Mask), this tool will streamline the process of subnetting and ensure you get precise network breakdowns.

@@ -20,29 +20,6 @@ network build_network(int ip, int n_devices, int cidr) {
     return net;
 }
 
-void export_csv(FILE* csv, network networks[], int n) {
-    char *buffer = (char *)malloc(16 * sizeof(char));
-    fprintf(csv, "IP, CIDR, Broadcast, Start, End, Free from, to\n");
-
-    for (int i = 0; i < n; i++) {
-        fprintf(csv, "%s, ", int2ip(buffer, networks[i].start - 1));
-        fprintf(csv, "/%d, ", networks[i].cidr);
-        fprintf(csv, "%s, ", int2ip(buffer, networks[i].broadcast));
-
-        if (is_free(networks[i])) {
-            fprintf(csv, " //, //, %s,", int2ip(buffer, networks[i].start));
-        } else {
-            fprintf(csv, " %s, ", int2ip(buffer, networks[i].start));
-            fprintf(csv, " %s, ", int2ip(buffer, networks[i].end));
-            fprintf(csv, "  %s, ", int2ip(buffer, networks[i].end + 1));
-        }
-        
-        fprintf(csv, "%s\n", int2ip(buffer, networks[i].broadcast - 1));
-    }
-
-    free(buffer);
-}
-
 int find_power_bigger_than(int num) {
     for (int i = 0; i < 32; i++) 
         if (pow(2, i) > num)
@@ -77,7 +54,10 @@ int get_subnet_mask(int cidr) {
     return subnet_mask;
 }
 
-char *int2ip(char ip[], unsigned int bits) {
+char *int2ip(char *ip, unsigned int bits) {
+    if (ip == NULL)
+        ip = (char *)malloc(16 * sizeof(char));
+        
     unsigned int octets[4] = {0, 0, 0, 0};
     
     for (int i = 0; i < 4; i++) {

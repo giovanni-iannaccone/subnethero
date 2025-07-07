@@ -7,6 +7,8 @@ Subnethero is a powerful C-based command-line tool designed to help network admi
 - Simple command-line interface
 - Displays subnet information in a clear tabular format
 - Generates subnetting tables with efficient algorithm
+- Save the output to a csv file
+- Parse csv to get network configuration
 - IP lookup to know which subnet owns an IP
 
 ## 📡 Installation
@@ -39,6 +41,7 @@ Options:
   -s | --subs        number of subnetworks (followed by n devices for each network)
 
   Optional:
+  -p | --input       read network configuration from a csv file
   -o | --output      copy the output into csv file
   -l | --lookup      find which subnet owns an ip
 
@@ -65,7 +68,10 @@ Specify the CIDR notation for the original network (e.g., /24).
 - `-s` | `--subs` <br/>
 Define the number of subnets you need, followed by the number of devices in each subnet. The tool will calculate the necessary subnet masks.
 
-- `-o` | `--output-file` <br/>
+- `-p` | `--input` <br/>
+Read network configuration from a csv file and do calculations on that configuration (e.g., `lookup`).
+
+- `-o` | `--output` <br/>
 Copy the output to a csv file (e.g., output.csv), don't specify anything to print the table to stdout.
 
 - `-l` | `--lookup` <br/>
